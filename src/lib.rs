@@ -1,4 +1,7 @@
-#![feature(generic_arg_infer)]
+//! # unreal
+//!
+//! Fake data generator. Fork of the [fakeit](https://github.com/PumpkinSeed/fakeit) crate.
+
 #![warn(
     clippy::nursery,
     clippy::pedantic,
