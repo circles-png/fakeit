@@ -1,6 +1,6 @@
 [package]
 name = "unreal"
-version = "0.2.0"
+version = "1.0.0"
 authors = [
     "PumpkinSeed <qwer.kocka@gmail.com>",
     "Matthew Li <matthew.li10@education.nsw.gov.au>",
