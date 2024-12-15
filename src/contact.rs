@@ -1,57 +1,38 @@
-use crate::data::contact;
-use crate::data::internet;
-use crate::misc;
-use crate::name;
-use ::std::string::String;
+use rand::RngCore;
 
-pub struct Info {
-    phone: String,
-    email: String,
-}
+use crate::Unreal;
 
-pub fn info() -> Info {
-    Info {
-        phone: phone_formatted(),
-        email: email(),
-    }
-}
-
-pub fn phone() -> String {
-    misc::replace_with_numbers("##########".to_string())
-}
-
-pub fn phone_formatted() -> String {
-    misc::replace_with_numbers(misc::random_data(contact::PHONE).to_string())
-}
-
-pub fn email() -> String {
-    format!(
-        "{}{}@{}.{}",
-        name::first(),
-        name::last(),
-        name::last(),
-        misc::random_data(internet::DOMAIN_SUFFIX).to_string()
-    )
-    .to_lowercase()
-}
-
-#[cfg(test)]
-mod tests {
-    use crate::contact;
-    use crate::testify::exec_mes;
-
-    #[test]
-    fn phone() {
-        exec_mes("contact::phone", || contact::phone());
+impl<R: RngCore> Unreal<R> {
+    #[must_use]
+    pub fn phone(&mut self) -> String {
+        #[allow(clippy::inconsistent_digit_grouping, reason = "this is a phone number")]
+        self.numbers(100_000_0000..=999_999_9999, 9)
     }
 
-    #[test]
-    fn phone_formatted() {
-        exec_mes("contact::phone_formatted", || contact::phone_formatted());
+    #[must_use]
+    pub fn phone_formatted(&mut self) -> String {
+        let numbers = [
+            self.numbers(0..=999, 3),
+            self.numbers(0..=999, 3),
+            self.numbers(0..=9999, 4),
+        ];
+        self.choose([
+            (|[a, b, c]| format!("{a}-{b}-{c}")) as fn([String; 3]) -> String,
+            (|[a, b, c]| format!("({a}){b}-{c}")) as fn([String; 3]) -> String,
+            (|[a, b, c]| format!("1-{a}-{b}-{c}")) as fn([String; 3]) -> String,
+            (|[a, b, c]| format!("{a}.{b}.{c}")) as fn([String; 3]) -> String,
+        ])(numbers)
     }
 
-    #[test]
-    fn email() {
-        exec_mes("contact::email", || contact::email());
+    #[must_use]
+    pub fn email(&mut self) -> String {
+        format!(
+            "{}{}@{}.{}",
+            self.first_name(),
+            self.last_name(),
+            self.last_name(),
+            self.domain_suffix()
+        )
+        .to_lowercase()
     }
 }

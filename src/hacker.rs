@@ -1,64 +1,37 @@
-use crate::data::hacker;
-use crate::generator;
-use crate::misc;
+use rand::RngCore;
 
-pub fn phrase() -> String {
-    let phrase = misc::random_data(hacker::PHRASE).to_string();
-    generator::generate(phrase)
-}
+use crate::Unreal;
+use crate::choose;
+use crate::data::hacker::{
+    ABBREVIATION, ADJECTIVE, NOUN, VERB_INFINITIVE, VERB_PRESENT_PARTICIPLE,
+};
 
-pub fn abbreviation() -> String {
-    misc::random_data(hacker::ABBREVIATION).to_string()
-}
-
-pub fn adjective() -> String {
-    misc::random_data(hacker::ADJECTIVE).to_string()
-}
-
-pub fn noun() -> String {
-    misc::random_data(hacker::NOUN).to_string()
-}
-
-pub fn verb() -> String {
-    misc::random_data(hacker::VERB).to_string()
-}
-
-pub fn ingverb() -> String {
-    misc::random_data(hacker::INGVERB).to_string()
-}
-
-#[cfg(test)]
-mod tests {
-    use crate::hacker;
-    use crate::testify::exec_mes;
-
-    #[test]
-    fn phrase() {
-        exec_mes("hacker::phrase", || hacker::phrase());
+impl<R: RngCore> Unreal<R> {
+    choose! {
+        pub fn abbreviation(&mut self) from ABBREVIATION;
+        pub fn adjective(&mut self) from ADJECTIVE;
+        pub fn noun(&mut self) from NOUN;
+        pub fn verb_infinitive(&mut self) from VERB_INFINITIVE;
+        pub fn verb_present_participle(&mut self) from VERB_PRESENT_PARTICIPLE;
     }
 
-    #[test]
-    fn abbreviation() {
-        exec_mes("hacker::abbreviation", || hacker::abbreviation());
-    }
-
-    #[test]
-    fn adjective() {
-        exec_mes("hacker::adjective", || hacker::adjective());
-    }
-
-    #[test]
-    fn noun() {
-        exec_mes("hacker::noun", || hacker::noun());
-    }
-
-    #[test]
-    fn verb() {
-        exec_mes("hacker::verb", || hacker::verb());
-    }
-
-    #[test]
-    fn ingverb() {
-        exec_mes("hacker::ingverb", || hacker::ingverb());
+    #[must_use]
+    pub fn phrase(&mut self) -> String {
+        type F = fn(&str, &str, &str, &str, &str) -> String;
+        let abbreviation = self.abbreviation();
+        let adjective = self.adjective();
+        let noun = self.noun();
+        let verb_infinitive = self.verb_infinitive();
+        let verb_present_participle = self.verb_present_participle();
+        self.choose([
+            (|abbreviation, adjective, noun, verb_infinitive, _verb_present_participle| format!("If we {verb_infinitive} the {noun}, we can get to the {abbreviation} {noun} through the {adjective} {abbreviation} {noun}!")) as F,
+            (|abbreviation, adjective, noun, verb_infinitive, _verb_present_participle| format!("We need to {verb_infinitive} the {adjective} {abbreviation} {noun}!")) as F,
+            (|abbreviation, adjective, noun, verb_infinitive, _verb_present_participle| format!("Try to {verb_infinitive} the {abbreviation} {noun}, maybe it will {verb_infinitive} the {adjective} {noun}!")) as F,
+            (|abbreviation, adjective, noun, verb_infinitive, verb_present_participle| format!("You can't {verb_infinitive} the {noun} without {verb_present_participle} the {adjective} {abbreviation} {noun}!")) as F,
+            (|abbreviation, adjective, noun, verb_infinitive, _verb_present_participle| format!("Use the {adjective} {abbreviation} {noun}, then you can {verb_infinitive} the {adjective} {noun}!")) as F,
+            (|abbreviation, adjective, noun, verb_infinitive, _verb_present_participle| format!("The {abbreviation} {noun} is down, {verb_infinitive} the {adjective} {noun} so we can {verb_infinitive} the {abbreviation} {noun}!")) as F,
+            (|abbreviation, adjective, noun, verb_infinitive, verb_present_participle| format!("{verb_present_participle} the {noun} won't do anything, we need to {verb_infinitive} the {adjective} {abbreviation} {noun}!")) as F,
+            (|abbreviation, adjective, noun, verb_infinitive, _verb_present_participle| format!("I'll {verb_infinitive} the {adjective} {abbreviation} {noun}, that should {verb_infinitive} the {abbreviation} {noun}!")) as F,
+        ])( abbreviation, adjective, noun, verb_infinitive, verb_present_participle)
     }
 }

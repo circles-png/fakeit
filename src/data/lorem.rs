@@ -1,5 +1,4 @@
-#[allow(dead_code)]
-pub static WORD: &'static [&str] = &[
+pub static WORD: &[&str] = &[
     "alias",
     "consequatur",
     "aut",

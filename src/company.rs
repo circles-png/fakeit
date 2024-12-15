@@ -1,51 +1,31 @@
-use crate::data::company;
-use crate::misc;
-use crate::name;
-use ::std::string::String;
+use rand::RngCore;
 
-pub fn company() -> String {
-    match misc::random::<i64>(1, 3) {
-        1 => return format!("{}, {} and {}", name::last(), name::last(), name::last()),
-        2 => return format!("{}-{}", name::last(), name::last()),
-        3 => return format!("{} {}", name::last(), company_suffix()),
-        _ => format!("impossible"),
-    }
-}
+use crate::Unreal;
+use crate::choose;
+use crate::data::company::{BS, BUZZWORDS, SUFFIX};
 
-pub fn company_suffix() -> String {
-    misc::random_data(company::SUFFIX).to_string()
-}
-
-pub fn buzzword() -> String {
-    misc::random_data(company::BUZZWORDS).to_string()
-}
-
-pub fn bs() -> String {
-    misc::random_data(company::BS).to_string()
-}
-
-#[cfg(test)]
-mod tests {
-    use crate::company;
-    use crate::testify::exec_mes;
-
-    #[test]
-    fn company() {
-        exec_mes("company::company", || company::company());
+impl<R: RngCore> Unreal<R> {
+    #[must_use]
+    pub fn company(&mut self) -> String {
+        self.choose([
+            (|this: &mut Self| {
+                format!(
+                    "{}, {} and {}",
+                    this.last_name(),
+                    this.last_name(),
+                    this.last_name()
+                )
+            }) as fn(&mut Self) -> String,
+            (|this: &mut Self| format!("{}-{}", this.last_name(), this.last_name()))
+                as fn(&mut Self) -> String,
+            (|this: &mut Self| format!("{} {}", this.last_name(), this.company_suffix()))
+                as fn(&mut Self) -> String,
+        ])(self)
     }
 
-    #[test]
-    fn company_suffix() {
-        exec_mes("company::company_suffix", || company::company_suffix());
-    }
-
-    #[test]
-    fn buzzword() {
-        exec_mes("company::buzzword", || company::buzzword());
-    }
-
-    #[test]
-    fn bs() {
-        exec_mes("company::bs", || company::bs());
+    choose! {
+        pub fn company_suffix(&mut self) from SUFFIX;
+        pub fn buzzword(&mut self) from BUZZWORDS;
+        pub fn bs(&mut self) from BS;
     }
 }

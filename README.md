@@ -1,3 +1,10 @@
+# unreal
+
+Fake data generator. Fork of the [fakeit](https://github.com/PumpkinSeed/fakeit) crate.
+
+<details>
+<summary>Original README</summary>
+
 # fakeit
 
 [![Latest Version](https://img.shields.io/crates/v/fakeit.svg)](https://crates.io/crates/fakeit)
@@ -12,7 +19,7 @@ v1.2.0 breaks the backward compatibility with the previous versions. The `chrono
 - `datetime::date_range("RFC3339", "RFC3339");`
 - `datetime::date();`
 
-There is the workaround to get the same behaviour as before: 
+There is the workaround to get the same behaviour as before:
 
 ```rust
 extern crate fakeit;
@@ -38,35 +45,40 @@ fn main() {
 - [Crates.io/fakeit](https://crates.io/crates/fakeit)
 - [docs.rs](https://docs.rs/fakeit)
 
-### Functions 
+### Functions
 
-- [address](#address-16-functions)
-- [animal](#animal-6-functions)
-- [beer](#beer-8-functions)
-- [bool](#bool-1-functions)
-- [color](#color-4-functions)
-- [company](#company-4-functions)
-- [contact](#contact-4-functions)
-- [currency](#currency-4-functions)
-- [datetime](#datetime-14-functions)
-- [file](#file-2-functions)
-- [generator](#generator-1-function)
-- [hacker](#hacker-6-functions)
-- [hipster](#hipster-3-functions)
-- [image](#image-1-function)
-- [internet](#internet-7-functions)
-- [job](#job-4-functions)
-- [language](#language-3-functions)
-- [log-level](#log-level-3-functions)
-- [name](#name-5-functions)
-- [password](#password-1-function)
-- [payment](#payment-6-functions)
-- [person](#person-3-functions)
-- [status code](#status-code-2-functions)
-- [unique](#unique-2-functions)
-- [user agent](#user-agent-8-functions)
-- [vehicle](#vehicle-6-functions)
-- [words](#words-6-functions)
+- [unreal](#unreal)
+- [fakeit](#fakeit)
+    - [Warning](#warning)
+    - [Usage](#usage)
+    - [Functions](#functions)
+        - [address (16 functions)](#address-16-functions)
+        - [animal (6 functions)](#animal-6-functions)
+        - [beer (8 functions)](#beer-8-functions)
+        - [bool (1 functions)](#bool-1-functions)
+        - [color (4 functions)](#color-4-functions)
+        - [company (4 functions)](#company-4-functions)
+        - [contact (4 functions)](#contact-4-functions)
+        - [currency (4 functions)](#currency-4-functions)
+        - [datetime (14 functions)](#datetime-14-functions)
+        - [file (2 functions)](#file-2-functions)
+        - [generator (1 function)](#generator-1-function)
+        - [hacker (6 functions)](#hacker-6-functions)
+        - [hipster (3 functions)](#hipster-3-functions)
+        - [image (1 function)](#image-1-function)
+        - [internet (7 functions)](#internet-7-functions)
+        - [job (4 functions)](#job-4-functions)
+        - [language (3 functions)](#language-3-functions)
+        - [log-level (3 functions)](#log-level-3-functions)
+        - [name (5 functions)](#name-5-functions)
+        - [password (1 function)](#password-1-function)
+        - [payment (6 functions)](#payment-6-functions)
+        - [person (3 functions)](#person-3-functions)
+        - [status code (2 functions)](#status-code-2-functions)
+        - [unique (2 functions)](#unique-2-functions)
+        - [user agent (8 functions)](#user-agent-8-functions)
+        - [vehicle (6 functions)](#vehicle-6-functions)
+        - [words (6 functions)](#words-6-functions)
 
 ##### address (16 functions)
 
@@ -492,7 +504,7 @@ fn main() {
     let data = words::paragraph(count, sentence_count, word_count, separator); // paragraph: Minima aut numquam nihil rerum commodi pariatur dolores...
     let data = words::question(); // question: Placeat voluptatem at ut eveniet suscipit similique dicta quis?
     let data = words::quote(); // quote: "Dignissimos dolorem quam tempore excepturi facere dicta." - Willy Kihn
-    
+
     let opts = words::ParagraphOpts {
         count: 5,
         sentence_count: 4,
@@ -502,3 +514,5 @@ fn main() {
     let data = words::paragraph_generator(opts, &words::sentence); // paragraph_generator: Quisquam aut consequuntur nobis voluptas porro...
 }
 ```
+
+</details>

@@ -1,5 +1,4 @@
-#[allow(dead_code)]
-pub static MIME_TYPE: &'static [&str] = &[
+pub static MIME_TYPE: &[&str] = &[
     "x-world/x-3dmf",
     "application/octet-stream",
     "application/x-authorware-bin",
@@ -641,8 +640,7 @@ pub static MIME_TYPE: &'static [&str] = &[
     "text/x-script.zsh",
 ];
 
-#[allow(dead_code)]
-pub static EXTENSION: &'static [&str] = &[
+pub static EXTENSION: &[&str] = &[
     "doc",
     "docx",
     "log",

@@ -1,12 +1,10 @@
-#[allow(dead_code)]
-pub static ABBREVIATION: &'static [&str] = &[
+pub static ABBREVIATION: &[&str] = &[
     "TCP", "HTTP", "SDD", "RAM", "GB", "CSS", "SSL", "AGP", "SQL", "FTP", "PCI", "AI", "ADP",
     "RSS", "XML", "EXE", "COM", "HDD", "THX", "SMTP", "SMS", "USB", "PNG", "SAS", "IB", "SCSI",
     "JSON", "XSS", "JBOD",
 ];
 
-#[allow(dead_code)]
-pub static ADJECTIVE: &'static [&str] = &[
+pub static ADJECTIVE: &[&str] = &[
     "auxiliary",
     "primary",
     "back-end",
@@ -27,8 +25,7 @@ pub static ADJECTIVE: &'static [&str] = &[
     "mobile",
 ];
 
-#[allow(dead_code)]
-pub static NOUN: &'static [&str] = &[
+pub static NOUN: &[&str] = &[
     "driver",
     "protocol",
     "bandwidth",
@@ -55,8 +52,7 @@ pub static NOUN: &'static [&str] = &[
     "matrix",
 ];
 
-#[allow(dead_code)]
-pub static VERB: &'static [&str] = &[
+pub static VERB_INFINITIVE: &[&str] = &[
     "back up",
     "bypass",
     "hack",
@@ -77,8 +73,7 @@ pub static VERB: &'static [&str] = &[
     "parse",
 ];
 
-#[allow(dead_code)]
-pub static INGVERB: &'static [&str] = &[
+pub static VERB_PRESENT_PARTICIPLE: &[&str] = &[
     "backing up",
     "bypassing",
     "hacking",
@@ -95,16 +90,4 @@ pub static INGVERB: &'static [&str] = &[
     "transmitting",
     "programming",
     "parsing",
-];
-
-#[allow(dead_code)]
-pub static PHRASE: &'static [&str] = &[
-		"If we {hacker.verb} the {hacker.noun}, we can get to the {hacker.abbreviation} {hacker.noun} through the {hacker.adjective} {hacker.abbreviation} {hacker.noun}!",
-		"We need to {hacker.verb} the {hacker.adjective} {hacker.abbreviation} {hacker.noun}!",
-		"Try to {hacker.verb} the {hacker.abbreviation} {hacker.noun}, maybe it will {hacker.verb} the {hacker.adjective} {hacker.noun}!",
-		"You can't {hacker.verb} the {hacker.noun} without {hacker.ingverb} the {hacker.adjective} {hacker.abbreviation} {hacker.noun}!",
-		"Use the {hacker.adjective} {hacker.abbreviation} {hacker.noun}, then you can {hacker.verb} the {hacker.adjective} {hacker.noun}!",
-		"The {hacker.abbreviation} {hacker.noun} is down, {hacker.verb} the {hacker.adjective} {hacker.noun} so we can {hacker.verb} the {hacker.abbreviation} {hacker.noun}!",
-		"{hacker.ingverb} the {hacker.noun} won't do anything, we need to {hacker.verb} the {hacker.adjective} {hacker.abbreviation} {hacker.noun}!",
-		"I'll {hacker.verb} the {hacker.adjective} {hacker.abbreviation} {hacker.noun}, that should {hacker.verb} the {hacker.abbreviation} {hacker.noun}!",
 ];

@@ -1,81 +1,67 @@
-use crate::data::payment;
-use crate::misc;
+use std::iter::from_fn;
 
-pub struct CreditCard {
-    type_of: String,
-    number: String,
-    exp: String,
-    cvv: String,
-}
+use chrono::{Datelike, Local};
+use rand::seq::SliceRandom;
+use rand::{Rng, RngCore};
 
-pub fn credit_card() -> CreditCard {
-    CreditCard {
-        type_of: credit_card_type(),
-        number: credit_card_number(),
-        exp: credit_card_exp(),
-        cvv: credit_card_cvv(),
-    }
-}
+use crate::Unreal;
+use crate::data::payment::CARD;
 
-pub fn credit_card_type() -> String {
-    misc::random_data(payment::CARD_TYPE).to_string()
-}
-
-pub fn credit_card_number() -> String {
-    misc::replace_with_numbers(misc::random_data(payment::NUMBER).to_string())
-}
-
-pub fn credit_card_luhn_number() -> String {
-    // @TODO
-    return String::from("");
-}
-
-pub fn credit_card_exp() -> String {
-    let current_year = misc::current_year() as i32 - 2000;
-    let month = misc::random(1, 12);
-    if month < 10 {
-        format!(
-            "{}/{}",
-            format!("0{}", month).as_str(),
-            current_year + misc::random(1, 10)
-        )
-    } else {
-        format!(
-            "{}/{}",
-            format!("{}", month).as_str(),
-            current_year + misc::random(1, 10)
-        )
-    }
-}
-
-pub fn credit_card_cvv() -> String {
-    misc::replace_with_numbers("###".to_string())
-}
-
-#[cfg(test)]
-mod tests {
-    use crate::payment;
-    use crate::testify::exec_mes;
-
-    #[test]
-    fn credit_card_type() {
-        exec_mes("payment::credit_card_type", || payment::credit_card_type());
+impl<R: RngCore> Unreal<R> {
+    fn card(&mut self) -> (&'static str, &'static [&'static str]) {
+        *CARD.choose(self).expect("CARDS should not be empty")
     }
 
-    #[test]
-    fn credit_card_number() {
-        exec_mes("payment::credit_card_number", || {
-            payment::credit_card_number()
-        });
+    pub fn card_type(&mut self) -> &str {
+        self.card().0
     }
 
-    #[test]
-    fn credit_card_exp() {
-        exec_mes("payment::credit_card_exp", || payment::credit_card_exp());
+    #[must_use]
+    pub fn credit_card_number(&mut self) -> String {
+        self.credit_card_number_inner().take(16).collect()
     }
 
-    #[test]
-    fn credit_card_cvv() {
-        exec_mes("payment::credit_card_cvv", || payment::credit_card_cvv());
+    fn credit_card_number_inner(&mut self) -> impl Iterator<Item = char> {
+        let starts = Self::card(self).1;
+        let start =
+            *SliceRandom::choose(starts, self).expect("all cards should have starting digits");
+        start
+            .chars()
+            .chain(from_fn(|| Some((b'0' + self.gen_range(0..=9)) as char)))
+    }
+
+    #[must_use]
+    pub fn credit_card_luhn_number(&mut self) -> String {
+        let number: String = self.credit_card_number_inner().take(15).collect();
+        let check_digit = ((10
+            - (number
+                .chars()
+                .rev()
+                .enumerate()
+                .map(|(index, digit)| {
+                    let digit = digit as u8 - b'0';
+                    u32::from(if index % 2 == 0 {
+                        digit
+                    } else {
+                        (digit * 2) % 9
+                    })
+                })
+                .sum::<u32>()
+                % 10))
+            % 10)
+            .to_string();
+        number + &check_digit
+    }
+
+    #[must_use]
+    pub fn credit_card_exp(&mut self) -> String {
+        let year = (Local::now().year() + self.gen_range(1..=10)).to_string();
+        let month = self.month();
+        format!("{:0>2}/{}", month, &year[year.len() - 2..])
+    }
+
+    #[must_use]
+    pub fn credit_card_cvv(&mut self) -> String {
+        self.numbers(0..=999, 3)
     }
 }

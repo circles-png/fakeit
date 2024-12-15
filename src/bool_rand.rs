@@ -1,5 +1,9 @@
-use crate::misc;
+use rand::{Rng, RngCore};
 
-pub fn bool() -> bool {
-    misc::random::<i64>(0, 1) == 1
+use crate::Unreal;
+
+impl<R: RngCore> Unreal<R> {
+    pub fn bool(&mut self) -> bool {
+        self.r#gen()
+    }
 }

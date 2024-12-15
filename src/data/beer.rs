@@ -1,5 +1,4 @@
-#[allow(dead_code)]
-pub static NAME: &'static [&str] = &[
+pub static NAME: &[&str] = &[
     "Pliny The Elder",
     "Founders Kentucky Breakfast",
     "Trappistes Rochefort 10",
@@ -34,15 +33,15 @@ pub static NAME: &'static [&str] = &[
     "Shakespeare Oatmeal",
     "Alpha King Pale Ale",
     "Westmalle Trappist Tripel",
-    "Samuel Smith’s Imperial IPA",
+    "Samuel Smith's Imperial IPA",
     "Yeti Imperial Stout",
     "Hennepin",
-    "Samuel Smith’s Oatmeal Stout",
+    "Samuel Smith's Oatmeal Stout",
     "Brooklyn Black",
     "Oaked Arrogant Bastard Ale",
     "Sublimely Self-Righteous Ale",
     "Trois Pistoles",
-    "Bell’s Expedition",
+    "Bell's Expedition",
     "Sierra Nevada Celebration Ale",
     "Sierra Nevada Bigfoot Barleywine Style Ale",
     "Racer 5 India Pale Ale, Bear Republic Bre",
@@ -52,13 +51,12 @@ pub static NAME: &'static [&str] = &[
     "Maudite",
 ];
 
-#[allow(dead_code)]
-pub static HOP: &'static [&str] = &[
+pub static HOP: &[&str] = &[
     "Ahtanum",
     "Amarillo",
     "Bitter Gold",
     "Bravo",
-    "Brewer’s Gold",
+    "Brewer's Gold",
     "Bullion",
     "Cascade",
     "Cashmere",
@@ -107,8 +105,7 @@ pub static HOP: &'static [&str] = &[
     "Yakima Gol",
 ];
 
-#[allow(dead_code)]
-pub static YEAST: &'static [&str] = &[
+pub static YEAST: &[&str] = &[
     "1007 - German Ale",
     "1010 - American Wheat",
     "1028 - London Ale",
@@ -160,8 +157,7 @@ pub static YEAST: &'static [&str] = &[
     "5733 - Pediococcus",
 ];
 
-#[allow(dead_code)]
-pub static MALT: &'static [&str] = &[
+pub static MALT: &[&str] = &[
     "Black malt",
     "Caramel",
     "Carapils",
@@ -180,8 +176,7 @@ pub static MALT: &'static [&str] = &[
     "Wheat mal",
 ];
 
-#[allow(dead_code)]
-pub static STYLE: &'static [&str] = &[
+pub static STYLE: &[&str] = &[
     "Light Lager",
     "Pilsner",
     "European Amber Lager",

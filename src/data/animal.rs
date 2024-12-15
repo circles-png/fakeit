@@ -1,5 +1,4 @@
-#[allow(dead_code)]
-pub static PETNAME: &'static [&str] = &[
+pub static PET_NAME: &[&str] = &[
     "Alfalfa",
     "Archie",
     "Attila",
@@ -87,8 +86,7 @@ pub static PETNAME: &'static [&str] = &[
     "Zeus",
 ];
 
-#[allow(dead_code)]
-pub static ANIMAL: &'static [&str] = &[
+pub static ANIMAL: &[&str] = &[
     "alligator",
     "alpaca",
     "ant",
@@ -231,8 +229,7 @@ pub static ANIMAL: &'static [&str] = &[
     "zebra",
 ];
 
-#[allow(dead_code)]
-pub static TYPE: &'static [&str] = &[
+pub static TYPE: &[&str] = &[
     "amphibians",
     "birds",
     "fish",
@@ -241,13 +238,11 @@ pub static TYPE: &'static [&str] = &[
     "reptiles",
 ];
 
-#[allow(dead_code)]
-pub static FARM: &'static [&str] = &[
+pub static FARM: &[&str] = &[
     "Chicken", "Cow", "Donkey", "Duck", "Goat", "Goose", "Horse", "Llama", "Pig", "Sheep", "Turkey",
 ];
 
-#[allow(dead_code)]
-pub static CAT: &'static [&str] = &[
+pub static CAT: &[&str] = &[
     "Abyssinian",
     "Aegean",
     "American Bobtail",
@@ -346,8 +341,7 @@ pub static CAT: &'static [&str] = &[
     "Ukrainian Levkoy",
 ];
 
-#[allow(dead_code)]
-pub static DOG: &'static [&str] = &[
+pub static DOG: &[&str] = &[
     "Affenpinscher",
     "African",
     "Airedale",

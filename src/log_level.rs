@@ -1,35 +1,12 @@
-use crate::data::log_level;
-use crate::misc;
+use rand::RngCore;
 
-pub fn general() -> String {
-    misc::random_data(log_level::GENERAL).to_string()
-}
+use crate::data::log_level::{APACHE, GENERAL, SYSLOG};
+use crate::{Unreal, choose};
 
-pub fn syslog() -> String {
-    misc::random_data(log_level::SYSLOG).to_string()
-}
-
-pub fn apache() -> String {
-    misc::random_data(log_level::APACHE).to_string()
-}
-
-#[cfg(test)]
-mod tests {
-    use crate::log_level;
-    use crate::testify::exec_mes;
-
-    #[test]
-    fn general() {
-        exec_mes("log_level::general", || log_level::general());
-    }
-
-    #[test]
-    fn apache() {
-        exec_mes("log_level::apache", || log_level::apache());
-    }
-
-    #[test]
-    fn syslog() {
-        exec_mes("log_level::syslog", || log_level::syslog());
+impl<R: RngCore> Unreal<R> {
+    choose! {
+        pub fn general_log_level(&mut self) from GENERAL;
+        pub fn syslog_log_level(&mut self) from SYSLOG;
+        pub fn apache_log_level(&mut self) from APACHE;
     }
 }

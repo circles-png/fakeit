@@ -1,11 +1,9 @@
-#[allow(dead_code)]
-pub static SAFE: &'static [&str] = &[
+pub static SAFE: &[&str] = &[
     "black", "maroon", "green", "navy", "olive", "purple", "teal", "lime", "blue", "silver",
     "gray", "yellow", "fuchsia", "aqua", "white",
 ];
 
-#[allow(dead_code)]
-pub static FULL: &'static [&str] = &[
+pub static FULL: &[&str] = &[
     "AliceBlue",
     "AntiqueWhite",
     "Aqua",
@@ -62,8 +60,8 @@ pub static FULL: &'static [&str] = &[
     "GreenYellow",
     "HoneyDew",
     "HotPink",
-    "IndianRed ",
-    "Indigo ",
+    "IndianRed",
+    "Indigo",
     "Ivory",
     "Khaki",
     "Lavender",

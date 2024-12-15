@@ -1,198 +1,83 @@
-use crate::data::address;
-use crate::misc;
-use crate::name;
-// use ::std::string::String;
+use std::iter::once;
 
-pub struct Info {
-    address: String,
-    street: String,
-    city: String,
-    state: String,
-    zip: String,
-    country: String,
-    latitude: f32,
-    longitude: f32,
-}
+use crate::Unreal;
+use crate::choose;
+use crate::data::address::{
+    COUNTRY, COUNTRY_ABR, STREET_NAME, STREET_PREFIX, STREET_SUFFIX, US_STATE, US_STATE_INITIALS,
+};
+use itertools::Itertools;
+use rand::Rng;
+use rand::RngCore;
+use rand::distributions::uniform::SampleRange;
 
-pub fn info() -> Info {
-    Info {
-        address: format!("{}, {}, {} {}", street(), city(), state(), zip()),
-        street: street(),
-        city: city(),
-        state: state(),
-        zip: zip(),
-        country: country(),
-        latitude: latitude(),
-        longitude: longitude(),
-    }
-}
-
-pub fn street() -> String {
-    match misc::random::<i64>(1, 2) {
-        1 => {
-            return format!(
-                "{} {} {} {}",
-                street_number(),
-                street_prefix(),
-                street_name(),
-                street_suffix()
-            )
-        }
-        2 => return format!("{} {} {}", street_number(), street_name(), street_suffix()),
-        _ => format!("impossible"),
-    }
-}
-
-pub fn street_number() -> String {
-    misc::replace_with_numbers(misc::random_data(address::NUMBER).to_string())
-}
-
-pub fn street_prefix() -> String {
-    misc::random_data(address::STREET_PREFIX).to_string()
-}
-
-pub fn street_name() -> String {
-    misc::random_data(address::STREET_NAME).to_string()
-}
-
-pub fn street_suffix() -> String {
-    misc::random_data(address::STREET_SUFFIX).to_string()
-}
-
-pub fn city() -> String {
-    match misc::random::<i64>(1, 3) {
-        1 => return format!("{}{}", name::first(), street_suffix()),
-        2 => return format!("{}{}", name::last(), street_suffix()),
-        3 => return format!("{} {}", street_prefix(), name::last()),
-        _ => format!("impossible"),
-    }
-}
-
-pub fn state() -> String {
-    misc::random_data(address::STATE).to_string()
-}
-
-pub fn state_abr() -> String {
-    misc::random_data(address::STATE_ABR).to_string()
-}
-
-pub fn zip() -> String {
-    misc::replace_with_numbers(misc::random_data(address::ZIP).to_string())
-}
-
-pub fn country() -> String {
-    misc::random_data(address::COUNTRY).to_string()
-}
-
-pub fn country_abr() -> String {
-    misc::random_data(address::COUNTRY_ABR).to_string()
-}
-
-pub fn latitude() -> f32 {
-    misc::random::<f32>(-90.0, 90.0)
-}
-
-pub fn latitude_in_range(min: f32, max: f32) -> f32 {
-    if min > max || min < -90.0 || min > 90.0 || max < -90.0 || max > 90.0 {
-        return latitude();
+impl<R: RngCore> Unreal<R> {
+    pub fn address(&mut self) -> String {
+        format!(
+            "{}, {}, {} {}",
+            self.street(),
+            self.city(),
+            self.us_state(),
+            self.zip()
+        )
     }
 
-    misc::random::<f32>(min, max)
-}
-
-pub fn longitude() -> f32 {
-    misc::random::<f32>(-180.0, 180.0)
-}
-
-pub fn longitude_in_range(min: f32, max: f32) -> f32 {
-    if min > max || min < -180.0 || min > 180.0 || max < -180.0 || max > 180.0 {
-        return latitude();
+    pub fn street(&mut self) -> String {
+        once(self.street_number().as_str())
+            .chain(Some(self.street_prefix()).filter(|_| self.r#gen()))
+            .chain(once(self.street_name()))
+            .chain(once(self.street_suffix()))
+            .join(" ")
     }
 
-    misc::random::<f32>(min, max)
-}
-
-#[cfg(test)]
-mod tests {
-    use crate::address;
-    use crate::testify::exec_mes;
-
-    #[test]
-    fn street() {
-        exec_mes("address::street", || address::street());
+    #[must_use]
+    pub fn street_number(&mut self) -> String {
+        self.numbers(0..=99_999, 3)
     }
 
-    #[test]
-    fn street_number() {
-        exec_mes("address::street_number", || address::street_number());
+    choose! {
+        pub fn street_prefix(&mut self) from STREET_PREFIX;
+        pub fn street_name(&mut self) from STREET_NAME;
+        pub fn street_suffix(&mut self) from STREET_SUFFIX;
+        pub fn us_state(&mut self) from US_STATE;
+        pub fn us_state_initials(&mut self) from US_STATE_INITIALS;
+        pub fn country(&mut self) from COUNTRY;
+        pub fn country_abr(&mut self) from COUNTRY_ABR;
     }
 
-    #[test]
-    fn street_prefix() {
-        exec_mes("address::street_prefix", || address::street_prefix());
+    #[must_use]
+    pub fn city(&mut self) -> String {
+        self.choose([
+            (|this: &mut Self| format!("{}{}", this.first_name(), this.street_suffix()))
+                as fn(&mut Self) -> String,
+            (|this: &mut Self| format!("{}{}", this.last_name(), this.street_suffix()))
+                as fn(&mut Self) -> String,
+            (|this: &mut Self| format!("{} {}", this.street_prefix(), this.last_name()))
+                as fn(&mut Self) -> String,
+        ])(self)
     }
 
-    #[test]
-    fn street_name() {
-        exec_mes("address::street_name", || address::street_name());
+    #[must_use]
+    pub fn zip(&mut self) -> String {
+        self.numbers(0..=99999, 5)
     }
 
-    #[test]
-    fn street_suffix() {
-        exec_mes("address::street_suffix", || address::street_suffix());
+    #[must_use]
+    pub fn latitude(&mut self) -> f32 {
+        self.gen_range(-90. ..=90.)
     }
 
-    #[test]
-    fn city() {
-        exec_mes("address::city", || address::city());
+    #[must_use]
+    pub fn latitude_in_range(&mut self, range: impl SampleRange<f32>) -> f32 {
+        self.gen_range(range).clamp(-90., 90.)
     }
 
-    #[test]
-    fn state() {
-        exec_mes("address::state", || address::state());
+    #[must_use]
+    pub fn longitude(&mut self) -> f32 {
+        self.gen_range(-180. ..=180.)
     }
 
-    #[test]
-    fn state_abr() {
-        exec_mes("address::state_abr", || address::state_abr());
-    }
-
-    #[test]
-    fn zip() {
-        exec_mes("address::zip", || address::zip());
-    }
-
-    #[test]
-    fn country() {
-        exec_mes("address::country", || address::country());
-    }
-
-    #[test]
-    fn country_abr() {
-        exec_mes("address::country_abr", || address::country_abr());
-    }
-
-    #[test]
-    fn latitude() {
-        exec_mes("address::latitude", || format!("{}", address::latitude()));
-    }
-
-    #[test]
-    fn latitude_in_range() {
-        exec_mes("address::latitude_in_range", || {
-            format!("{}", address::latitude_in_range(-30.0, 30.0))
-        });
-    }
-
-    #[test]
-    fn longitude() {
-        exec_mes("address::longitude", || format!("{}", address::longitude()));
-    }
-
-    #[test]
-    fn longitude_in_range() {
-        exec_mes("address::longitude_in_range", || {
-            format!("{}", address::longitude_in_range(-30.0, 30.0))
-        });
+    #[must_use]
+    pub fn longitude_in_range(&mut self, range: impl SampleRange<f32>) -> f32 {
+        self.gen_range(range).clamp(-180., 180.)
     }
 }

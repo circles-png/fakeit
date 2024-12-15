@@ -1,5 +1,4 @@
-#[allow(dead_code)]
-pub static SHORT: &'static [&str] = &[
+pub static SHORT: &[&str] = &[
     "aa", "ab", "ae", "af", "ak", "am", "an", "ar", "as", "av", "ay", "az", "ba", "be", "bg", "bh",
     "bi", "bm", "bn", "bo", "br", "bs", "ca", "ce", "ch", "co", "cr", "cs", "cv", "cy", "da", "de",
     "dv", "dz", "ee", "en", "eo", "es", "et", "eu", "fa", "ff", "fi", "fj", "fo", "fr", "fy", "ga",
@@ -14,8 +13,7 @@ pub static SHORT: &'static [&str] = &[
     "zu",
 ];
 
-#[allow(dead_code)]
-pub static LONG: &'static [&str] = &[
+pub static LONG: &[&str] = &[
     "Afar",
     "Abkhazian",
     "Avestan",
@@ -195,8 +193,7 @@ pub static LONG: &'static [&str] = &[
     "Zulu",
 ];
 
-#[allow(dead_code)]
-pub static PROGRAMMING: &'static [&str] = &[
+pub static PROGRAMMING: &[&str] = &[
     "A# .NET",
     "A# (Axiom)",
     "A-0 System",

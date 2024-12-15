@@ -1,35 +1,12 @@
-use crate::data::language;
-use crate::misc;
+use rand::RngCore;
 
-pub fn random() -> String {
-    misc::random_data(language::LONG).to_string()
-}
+use crate::data::language::{LONG, PROGRAMMING, SHORT};
+use crate::{Unreal, choose};
 
-pub fn abbreviation() -> String {
-    misc::random_data(language::SHORT).to_string()
-}
-
-pub fn programming() -> String {
-    misc::random_data(language::PROGRAMMING).to_string()
-}
-
-#[cfg(test)]
-mod tests {
-    use crate::language;
-    use crate::testify::exec_mes;
-
-    #[test]
-    fn random() {
-        exec_mes("language::random", || language::random());
-    }
-
-    #[test]
-    fn abbreviation() {
-        exec_mes("language::abbreviation", || language::abbreviation());
-    }
-
-    #[test]
-    fn programming() {
-        exec_mes("language::programming", || language::programming());
+impl<R: RngCore> Unreal<R> {
+    choose! {
+        pub fn language_long(&mut self) from LONG;
+        pub fn language_short(&mut self) from SHORT;
+        pub fn programming(&mut self) from PROGRAMMING;
     }
 }

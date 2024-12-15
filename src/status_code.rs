@@ -1,30 +1,25 @@
-use crate::data::status_code;
-use crate::misc;
+use rand::RngCore;
+use rand::seq::SliceRandom;
 
-pub fn simple() -> i16 {
-    misc::random_data(status_code::SIMPLE)
-}
+use crate::Unreal;
+use crate::data::status_code::{GENERAL, SIMPLE};
 
-pub fn general() -> i16 {
-    misc::random_data(status_code::GENERAL)
-}
-
-#[cfg(test)]
-mod tests {
-    use crate::status_code;
-    use crate::testify::exec_mes;
-
-    #[test]
-    fn simple() {
-        exec_mes("status_code::simple", || {
-            format!("{}", status_code::simple())
-        });
+impl<R: RngCore> Unreal<R> {
+    #[must_use]
+    #[allow(
+        clippy::missing_panics_doc,
+        reason = "this should not panic under normal circumstances"
+    )]
+    pub fn simple_status_code(&mut self) -> u32 {
+        *SIMPLE.choose(self).expect("SIMPLE should not be empty")
     }
 
-    #[test]
-    fn general() {
-        exec_mes("status_code::general", || {
-            format!("{}", status_code::general())
-        });
+    #[must_use]
+    #[allow(
+        clippy::missing_panics_doc,
+        reason = "this should not panic under normal circumstances"
+    )]
+    pub fn general_status_code(&mut self) -> u32 {
+        *GENERAL.choose(self).expect("GENERAL should not be empty")
     }
 }

@@ -1,53 +1,24 @@
-extern crate math;
+use rand::distributions::uniform::SampleRange;
+use rand::{Rng, RngCore};
 
-use crate::data::currency;
-use crate::misc;
-use math::round;
+use crate::data::currency::UNITS;
+use crate::{Unreal, choose};
 
-pub struct Info {
-    short: String,
-    long: String,
-}
-
-pub fn compact() -> Info {
-    let index = misc::random_data_index(currency::SHORT);
-    Info {
-        short: currency::SHORT[index].to_string(),
-        long: currency::LONG[index].to_string(),
-    }
-}
-
-pub fn short() -> String {
-    misc::random_data(currency::SHORT).to_string()
-}
-
-pub fn long() -> String {
-    misc::random_data(currency::LONG).to_string()
-}
-
-pub fn price(min: f64, max: f64) -> f64 {
-    round::floor(misc::random::<f64>(min, max), 2)
-}
-
-#[cfg(test)]
-mod tests {
-    use crate::currency;
-    use crate::testify::exec_mes;
-
-    #[test]
-    fn short() {
-        exec_mes("currency::short", || currency::short());
+impl<R: RngCore> Unreal<R> {
+    choose! {
+        pub fn unit(&mut self) -> &(&str, &str); from UNITS;
     }
 
-    #[test]
-    fn long() {
-        exec_mes("currency::long", || currency::long());
+    pub fn currency_short(&mut self) -> &str {
+        self.unit().0
     }
 
-    #[test]
-    fn price() {
-        exec_mes("currency::short", || {
-            format!("{}", currency::price(1 as f64, 123 as f64))
-        });
+    pub fn currency_long(&mut self) -> &str {
+        self.unit().1
+    }
+
+    #[must_use]
+    pub fn price(&mut self, range: impl SampleRange<f32>) -> f32 {
+        (self.gen_range(range) * 100.).floor() / 100.
     }
 }
