@@ -67,7 +67,6 @@ impl<R: RngCore> RngCore for Unreal<R> {
     }
 }
 
-#[macro_export]
 macro_rules! choose {
     (@method $visibility:vis fn $name:ident(&mut self) from $from:path;) => {
         #[must_use]
@@ -94,14 +93,12 @@ macro_rules! choose {
     };
 }
 
-#[macro_export]
 macro_rules! count_tts {
     () => { 0 };
     ($odd:tt $($a:tt $b:tt)*) => { ($crate::count_tts!($($a)*) << 1) | 1 };
     ($($a:tt $even:tt)*) => { $crate::count_tts!($($a)*) << 1 };
 }
 
-#[macro_export]
 macro_rules! array_consts {
     {
         $(
@@ -113,3 +110,7 @@ macro_rules! array_consts {
         )+
     };
 }
+
+pub(crate) use array_consts;
+pub(crate) use choose;
+pub(crate) use count_tts;
