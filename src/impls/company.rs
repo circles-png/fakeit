@@ -5,7 +5,6 @@ use crate::choose;
 use crate::data::company::{BS, BUZZWORDS, SUFFIX};
 
 impl<R: RngCore> Unreal<R> {
-    #[must_use]
     pub fn company(&mut self) -> String {
         self.choose([
             (|this: &mut Self| {

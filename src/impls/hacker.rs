@@ -15,7 +15,6 @@ impl<R: RngCore> Unreal<R> {
         pub fn verb_present_participle(&mut self) from VERB_PRESENT_PARTICIPLE;
     }
 
-    #[must_use]
     pub fn phrase(&mut self) -> String {
         type F = fn(&str, &str, &str, &str, &str) -> String;
         let abbreviation = self.abbreviation();

@@ -13,7 +13,6 @@ impl<R: RngCore> Unreal<R> {
         pub fn word(&mut self) from WORD;
     }
 
-    #[must_use]
     pub fn sentence(&mut self, word_count: usize) -> String {
         (0..word_count)
             .map(|index| match index {
@@ -34,7 +33,6 @@ impl<R: RngCore> Unreal<R> {
             .join(" ")
     }
 
-    #[must_use]
     pub fn paragraph(
         &mut self,
         paragraphs: usize,
@@ -53,14 +51,12 @@ impl<R: RngCore> Unreal<R> {
         .join(paragraph_separator)
     }
 
-    #[must_use]
     pub fn question(&mut self) -> String {
         let word_count = self.gen_range(3..=10);
         let sentence = self.sentence(word_count);
         sentence[..sentence.len() - 1].to_string() + "?"
     }
 
-    #[must_use]
     pub fn quote(&mut self) -> String {
         let word_count = self.gen_range(3..=10);
         format!(

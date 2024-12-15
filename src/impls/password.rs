@@ -8,7 +8,6 @@ use rand::{
 use crate::Unreal;
 
 impl<R: RngCore> Unreal<R> {
-    #[must_use]
     #[allow(
         clippy::missing_panics_doc,
         reason = "this should not panic under normal circumstances"

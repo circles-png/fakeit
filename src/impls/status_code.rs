@@ -5,7 +5,6 @@ use crate::Unreal;
 use crate::data::status_code::{GENERAL, SIMPLE};
 
 impl<R: RngCore> Unreal<R> {
-    #[must_use]
     #[allow(
         clippy::missing_panics_doc,
         reason = "this should not panic under normal circumstances"
@@ -14,7 +13,6 @@ impl<R: RngCore> Unreal<R> {
         *SIMPLE.choose(self).expect("SIMPLE should not be empty")
     }
 
-    #[must_use]
     #[allow(
         clippy::missing_panics_doc,
         reason = "this should not panic under normal circumstances"

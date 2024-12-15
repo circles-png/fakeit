@@ -10,7 +10,6 @@ impl<R: RngCore> Unreal<R> {
         pub fn safe_colour_name(&mut self) from SAFE;
     }
 
-    #[must_use]
     pub fn rgb24_hex(&mut self) -> String {
         self.rgb24()
             .into_iter()
@@ -20,7 +19,6 @@ impl<R: RngCore> Unreal<R> {
             })
     }
 
-    #[must_use]
     pub fn rgb24(&mut self) -> [u8; 3] {
         self.r#gen()
     }

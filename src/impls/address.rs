@@ -29,7 +29,6 @@ impl<R: RngCore> Unreal<R> {
             .join(" ")
     }
 
-    #[must_use]
     pub fn street_number(&mut self) -> String {
         self.numbers(0..=99_999, 3)
     }
@@ -44,7 +43,6 @@ impl<R: RngCore> Unreal<R> {
         pub fn country_abr(&mut self) from COUNTRY_ABR;
     }
 
-    #[must_use]
     pub fn city(&mut self) -> String {
         self.choose([
             (|this: &mut Self| format!("{}{}", this.first_name(), this.street_suffix()))
@@ -56,27 +54,22 @@ impl<R: RngCore> Unreal<R> {
         ])(self)
     }
 
-    #[must_use]
     pub fn zip(&mut self) -> String {
         self.numbers(0..=99999, 5)
     }
 
-    #[must_use]
     pub fn latitude(&mut self) -> f32 {
         self.gen_range(-90. ..=90.)
     }
 
-    #[must_use]
     pub fn latitude_in_range(&mut self, range: impl SampleRange<f32>) -> f32 {
         self.gen_range(range).clamp(-90., 90.)
     }
 
-    #[must_use]
     pub fn longitude(&mut self) -> f32 {
         self.gen_range(-180. ..=180.)
     }
 
-    #[must_use]
     pub fn longitude_in_range(&mut self, range: impl SampleRange<f32>) -> f32 {
         self.gen_range(range).clamp(-180., 180.)
     }

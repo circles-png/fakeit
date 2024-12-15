@@ -8,7 +8,6 @@ use crate::data::computer::MAC_PROCESSOR;
 use crate::data::computer::WINDOWS_PLATFORM;
 
 impl<R: RngCore> Unreal<R> {
-    #[must_use]
     pub fn chrome(&mut self) -> String {
         let version = self.gen_range(531..=538);
         format!(
@@ -21,7 +20,6 @@ impl<R: RngCore> Unreal<R> {
         )
     }
 
-    #[must_use]
     pub fn firefox(&mut self) -> String {
         let date = format!("{}-{}-{}", self.year(), self.month(), self.day());
         let platform = self.choose([
@@ -55,7 +53,6 @@ impl<R: RngCore> Unreal<R> {
         )
     }
 
-    #[must_use]
     pub fn safari(&mut self) -> String {
         let version = format!(
             "{}.{}.{}",
@@ -104,7 +101,6 @@ impl<R: RngCore> Unreal<R> {
         format!("Mozilla/5.0 {platforms}")
     }
 
-    #[must_use]
     pub fn opera(&mut self) -> String {
         let platform = format!(
             "({}; en-US) Presto/2.{}.{} Version/{}.00",
@@ -122,7 +118,6 @@ impl<R: RngCore> Unreal<R> {
         )
     }
 
-    #[must_use]
     #[allow(
         clippy::missing_panics_doc,
         reason = "this should not panic under normal circumstances"
@@ -136,7 +131,6 @@ impl<R: RngCore> Unreal<R> {
         )
     }
 
-    #[must_use]
     #[allow(
         clippy::missing_panics_doc,
         reason = "this should not panic under normal circumstances"
@@ -152,7 +146,6 @@ impl<R: RngCore> Unreal<R> {
         )
     }
 
-    #[must_use]
     #[allow(
         clippy::missing_panics_doc,
         reason = "this should not panic under normal circumstances"
@@ -164,7 +157,6 @@ impl<R: RngCore> Unreal<R> {
         .to_string()
     }
 
-    #[must_use]
     pub fn random_platform(&mut self) -> String {
         self.choose([
             Self::linux_platform_token as fn(&mut Self) -> String,

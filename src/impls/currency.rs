@@ -17,7 +17,6 @@ impl<R: RngCore> Unreal<R> {
         self.unit().1
     }
 
-    #[must_use]
     pub fn price(&mut self, range: impl SampleRange<f32>) -> f32 {
         (self.gen_range(range) * 100.).floor() / 100.
     }

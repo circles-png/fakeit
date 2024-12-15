@@ -8,42 +8,34 @@ use crate::data::datetime::{ABR, FULL, OFFSET, TEXT};
 use std::ops::{Bound, RangeBounds};
 
 impl<R: RngCore> Unreal<R> {
-    #[must_use]
     pub fn month(&mut self) -> u32 {
         self.gen_range(1..=12)
     }
 
-    #[must_use]
     pub fn day(&mut self) -> u32 {
         self.gen_range(1..=28)
     }
 
-    #[must_use]
     pub fn week_day(&mut self) -> u32 {
         self.gen_range(0..=6)
     }
 
-    #[must_use]
     pub fn year(&mut self) -> i32 {
         self.gen_range(1980..=Local::now().year())
     }
 
-    #[must_use]
     pub fn hour(&mut self) -> u32 {
         self.gen_range(0..=23)
     }
 
-    #[must_use]
     pub fn minute(&mut self) -> u32 {
         self.gen_range(0..=59)
     }
 
-    #[must_use]
     pub fn second(&mut self) -> u32 {
         self.gen_range(0..=59)
     }
 
-    #[must_use]
     pub fn nanosecond(&mut self) -> u32 {
         self.gen_range(0..=999_999_999)
     }
@@ -55,7 +47,7 @@ impl<R: RngCore> Unreal<R> {
         pub fn timezone_offset(&mut self) from OFFSET;
     }
 
-    pub fn date_in_range(
+    pub fn datetime_in_range(
         &mut self,
         range: impl RangeBounds<NaiveDateTime>,
     ) -> Option<NaiveDateTime> {
@@ -73,7 +65,7 @@ impl<R: RngCore> Unreal<R> {
         Some(DateTime::from_timestamp_nanos(self.gen_range(start_nanos..end_nanos)).naive_local())
     }
 
-    pub fn date(&mut self) -> Option<NaiveDateTime> {
+    pub fn datetime(&mut self) -> Option<NaiveDateTime> {
         Some(
             DateTime::from_timestamp_nanos(self.gen_range(0..Local::now().timestamp_nanos_opt()?))
                 .naive_local(),

@@ -9,7 +9,6 @@ impl<R: RngCore> Unreal<R> {
         Self::image_url(300, 300).add("/people")
     }
 
-    #[must_use]
     pub fn ssn(&mut self) -> String {
         #[allow(
             clippy::inconsistent_digit_grouping,
@@ -18,7 +17,6 @@ impl<R: RngCore> Unreal<R> {
         self.numbers(0..=999_99_9999, 9)
     }
 
-    #[must_use]
     pub fn gender(&mut self) -> &str {
         // are there more?
         if self.r#gen() { "female" } else { "male" }
