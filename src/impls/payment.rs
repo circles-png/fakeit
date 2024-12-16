@@ -1,4 +1,4 @@
-use std::iter::from_fn;
+use std::iter::repeat_with;
 
 use chrono::{Datelike, Local};
 use rand::seq::SliceRandom;
@@ -26,7 +26,7 @@ impl<R: RngCore> Unreal<R> {
             *SliceRandom::choose(starts, self).expect("all cards should have starting digits");
         start
             .chars()
-            .chain(from_fn(|| Some((b'0' + self.gen_range(0..=9)) as char)))
+            .chain(repeat_with(|| (b'0' + self.gen_range(0..=9)) as char))
     }
 
     pub fn credit_card_luhn_number(&mut self) -> String {

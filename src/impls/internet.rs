@@ -1,4 +1,4 @@
-use std::iter::from_fn;
+use std::iter::repeat_with;
 use std::net::Ipv4Addr;
 use std::net::Ipv6Addr;
 
@@ -35,7 +35,7 @@ impl<R: RngCore> Unreal<R> {
     }
 
     pub fn mac_address(&mut self) -> String {
-        from_fn(|| Some(self.r#gen::<u8>()))
+        repeat_with(|| self.r#gen::<u8>())
             .take(6)
             .map(|byte| format!("{byte:02x}"))
             .join(":")

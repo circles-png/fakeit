@@ -1,4 +1,4 @@
-use std::iter::from_fn;
+use std::iter::repeat_with;
 
 use rand::{Rng, RngCore};
 
@@ -10,7 +10,7 @@ impl<R: RngCore> Unreal<R> {
     }
 
     pub fn letters(&mut self, length: usize) -> String {
-        from_fn(|| Some(self.letter())).take(length).collect()
+        repeat_with(|| self.letter()).take(length).collect()
     }
 
     pub fn vowel(&mut self) -> char {

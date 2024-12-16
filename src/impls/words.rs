@@ -1,4 +1,4 @@
-use std::iter::from_fn;
+use std::iter::repeat_with;
 
 use itertools::Itertools;
 use rand::Rng;
@@ -40,12 +40,10 @@ impl<R: RngCore> Unreal<R> {
         words_per_sentence: usize,
         paragraph_separator: &str,
     ) -> String {
-        from_fn(|| {
-            Some(
-                from_fn(|| Some(self.sentence(words_per_sentence)))
-                    .take(sentences_per_paragraph)
-                    .join(" "),
-            )
+        repeat_with(|| {
+            repeat_with(|| self.sentence(words_per_sentence))
+                .take(sentences_per_paragraph)
+                .join(" ")
         })
         .take(paragraphs)
         .join(paragraph_separator)
