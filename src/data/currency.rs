@@ -1,6 +1,6 @@
 use crate::array_consts;
 
-array_consts! {
+array_consts![
     pub const UNITS: [(&str, &str); _] = [
         ("AED", "United Arab Emirates Dirham"),
         ("AFN", "Afghanistan Afghani"),
@@ -172,4 +172,4 @@ array_consts! {
         ("ZMW", "Zambia Kwacha"),
         ("ZWD", "Zimbabwe Dollar"),
     ];
-}
+];

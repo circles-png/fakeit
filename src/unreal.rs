@@ -6,7 +6,7 @@ use rand::{
 };
 
 pub struct Unreal<R: RngCore> {
-    rng: R,
+    pub(crate) rng: R,
 }
 
 impl<R: RngCore> Unreal<R> {

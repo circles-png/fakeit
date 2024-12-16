@@ -1,9 +1,13 @@
-pub static GENERAL: &[&str] = &["error", "warning", "info", "fatal", "trace", "debug"];
+use crate::array_consts;
 
-pub static SYSLOG: &[&str] = &[
-    "emerg", "alert", "crit", "err", "warning", "notice", "info", "debug",
-];
+array_consts![
+    pub const GENERAL: [&str; _] = ["error", "warning", "info", "fatal", "trace", "debug"];
 
-pub static APACHE: &[&str] = &[
-    "emerg", "alert", "crit", "error", "warn", "notice", "info", "debug", "trace1-8",
+    pub const SYSLOG: [&str; _] = [
+        "emerg", "alert", "crit", "err", "warning", "notice", "info", "debug",
+    ];
+
+    pub const APACHE: [&str; _] = [
+        "emerg", "alert", "crit", "error", "warn", "notice", "info", "debug", "trace1-8",
+    ];
 ];

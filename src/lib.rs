@@ -10,8 +10,9 @@
 )]
 
 mod data;
+pub mod global;
 mod impls;
 mod macros;
 mod unreal;
-pub(crate) use macros::{array_consts, choose, count_tts};
+pub(crate) use macros::{array_consts, choose};
 pub use unreal::Unreal;

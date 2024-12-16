@@ -1,3 +1,6 @@
-pub static DOMAIN_SUFFIX: &[&str] = &["com", "biz", "info", "name", "net", "org", "io"];
+use crate::array_consts;
 
-pub static HTTP_METHOD: &[&str] = &["HEAD", "GET", "POST", "PUT", "PATCH", "DELETE"];
+array_consts![
+    pub const DOMAIN_SUFFIX: [&str; _] = ["com", "biz", "info", "name", "net", "org", "io"];
+    pub const HTTP_METHOD: [&str; _] = ["HEAD", "GET", "POST", "PUT", "PATCH", "DELETE"];
+];

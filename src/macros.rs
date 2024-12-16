@@ -28,21 +28,14 @@ macro_rules! choose {
 }
 
 #[macro_vis(pub(crate))]
-macro_rules! count_tts {
-    () => { 0 };
-    ($odd:tt $($a:tt $b:tt)*) => { ($crate::count_tts!($($a)*) << 1) | 1 };
-    ($($a:tt $even:tt)*) => { $crate::count_tts!($($a)*) << 1 };
-}
-
-#[macro_vis(pub(crate))]
 macro_rules! array_consts {
-    {
+    [
         $(
-            pub const $name:ident: [$type:ty; _] = [$($value:expr),* $(,)?];
+            pub const $name:ident: [$type:ty; _] = $array:expr;
         )+
-    } => {
+    ] => {
         $(
-            pub const $name: [$type; $crate::count_tts!($($value)*)] = [$($value),*];
+            pub const $name: [$type; $array.len()] = $array;
         )+
     };
 }
