@@ -22,7 +22,7 @@ impl<R: RngCore> Unreal<R> {
     }
 
     /// # Panics
-    /// Panics if [`length`] does not fit in a [`u32`].
+    /// Panics if the given length does not fit in a [`u32`].
     pub fn digits(&mut self, length: usize) -> String {
         self.numbers(
             0..10_usize.pow(u32::try_from(length).expect("given length should fit in a u32")),
