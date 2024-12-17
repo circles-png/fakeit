@@ -4,19 +4,19 @@ use rand::RngCore;
 use crate::Unreal;
 use std::ops::Add;
 
+/// Generate random person data.
 impl<R: RngCore> Unreal<R> {
+    /// Return a URL to a 300x300 pixel image of a person.
     pub fn image(&mut self) -> String {
-        Self::image_url(300, 300).add("/people")
+        self.image_url(300, 300).add("/people")
     }
 
+    /// Return a random 9 digit social security number.
     pub fn ssn(&mut self) -> String {
-        #[allow(
-            clippy::inconsistent_digit_grouping,
-            reason = "this is a US social security number"
-        )]
-        self.numbers(0..=999_99_9999, 9)
+        self.digits(9)
     }
 
+    /// Return a random gender, either `female` or `male`.
     pub fn gender(&mut self) -> &str {
         // are there more?
         if self.r#gen() { "female" } else { "male" }

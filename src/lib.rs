@@ -6,10 +6,12 @@
     clippy::nursery,
     clippy::pedantic,
     clippy::unwrap_used,
-    clippy::allow_attributes_without_reason
+    clippy::allow_attributes_without_reason,
+    missing_docs
 )]
 
 mod data;
+/// Use a global instance of the Unreal struct to generate fake data.
 pub mod global;
 mod impls;
 mod macros;

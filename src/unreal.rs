@@ -5,11 +5,17 @@ use rand::{
     thread_rng,
 };
 
+/// A fake data generator, with an internal RNG which could be seeded to generate deterministic
+/// results.
+///
+/// The [`Unreal`] struct implements the [`RngCore`] trait and therefore the [`Rng`] trait, so it
+/// can be used as any other RNG.
 pub struct Unreal<R: RngCore> {
     pub(crate) rng: R,
 }
 
 impl<R: RngCore> Unreal<R> {
+    /// Create a new [`Unreal`] with the given RNG.
     pub const fn from_rng(rng: R) -> Self {
         Self { rng }
     }
@@ -25,6 +31,7 @@ impl<R: RngCore> Unreal<R> {
 
 impl Unreal<StdRng> {
     #[must_use]
+    /// Create a new [`Unreal`] with a seeded [`StdRng`].
     pub fn from_stdrng_seed(seed: u64) -> Self {
         Self::from_rng(StdRng::seed_from_u64(seed))
     }
@@ -32,6 +39,7 @@ impl Unreal<StdRng> {
 
 impl<R: RngCore + SeedableRng> Unreal<R> {
     #[must_use]
+    /// Create a new [`Unreal`] with a seeded RNG.
     pub fn from_seed(seed: u64) -> Self {
         Self::from_rng(R::seed_from_u64(seed))
     }
@@ -39,6 +47,7 @@ impl<R: RngCore + SeedableRng> Unreal<R> {
 
 impl Unreal<ThreadRng> {
     #[must_use]
+    /// Create a new [`Unreal`] with the thread-local [`ThreadRng`].
     pub fn from_thread_rng() -> Self {
         Self::from_rng(thread_rng())
     }

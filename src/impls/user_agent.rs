@@ -7,7 +7,9 @@ use crate::data::computer::LINUX_PROCESSOR;
 use crate::data::computer::MAC_PROCESSOR;
 use crate::data::computer::WINDOWS_PLATFORM;
 
+/// Generate random user agent data.
 impl<R: RngCore> Unreal<R> {
+    /// Return a random Google Chrome user agent string.
     pub fn chrome(&mut self) -> String {
         let version = self.gen_range(531..=538);
         format!(
@@ -20,6 +22,7 @@ impl<R: RngCore> Unreal<R> {
         )
     }
 
+    /// Return a random Firefox user agent string.
     pub fn firefox(&mut self) -> String {
         let date = format!("{}-{}-{}", self.year(), self.month(), self.day());
         let platform = self.choose([
@@ -53,6 +56,7 @@ impl<R: RngCore> Unreal<R> {
         )
     }
 
+    /// Return a random Safari user agent string.
     pub fn safari(&mut self) -> String {
         let version = format!(
             "{}.{}.{}",
@@ -101,6 +105,7 @@ impl<R: RngCore> Unreal<R> {
         format!("Mozilla/5.0 {platforms}")
     }
 
+    /// Return a random Opera user agent string.
     pub fn opera(&mut self) -> String {
         let platform = format!(
             "({}; en-US) Presto/2.{}.{} Version/{}.00",
@@ -122,6 +127,7 @@ impl<R: RngCore> Unreal<R> {
         clippy::missing_panics_doc,
         reason = "this should not panic under normal circumstances"
     )]
+    /// Return a random platform token for Linux.
     pub fn linux_platform_token(&mut self) -> String {
         format!(
             "X11; Linux {}",
@@ -135,6 +141,7 @@ impl<R: RngCore> Unreal<R> {
         clippy::missing_panics_doc,
         reason = "this should not panic under normal circumstances"
     )]
+    /// Return a random platform token for macOS.
     pub fn mac_platform_token(&mut self) -> String {
         format!(
             "Macintosh; {} Mac OS X 10_{}_{}",
@@ -150,6 +157,7 @@ impl<R: RngCore> Unreal<R> {
         clippy::missing_panics_doc,
         reason = "this should not panic under normal circumstances"
     )]
+    /// Return a random platform token for Windows.
     pub fn windows_platform_token(&mut self) -> String {
         (*WINDOWS_PLATFORM
             .choose(self)
@@ -157,6 +165,7 @@ impl<R: RngCore> Unreal<R> {
         .to_string()
     }
 
+    /// Return a random platform token.
     pub fn random_platform(&mut self) -> String {
         self.choose([
             Self::linux_platform_token as fn(&mut Self) -> String,

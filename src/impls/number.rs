@@ -1,25 +1,15 @@
-use std::iter::repeat_with;
-
 use crate::Unreal;
-use rand::{RngCore, seq::SliceRandom};
+use rand::{Rng, RngCore};
 
+/// Generate random number data.
 impl<R: RngCore> Unreal<R> {
     #[allow(
         clippy::missing_panics_doc,
         reason = "this should not panic under normal circumstances"
     )]
+    /// Generate a hex string with the given number of bits. The string will be lowercase and
+    /// prefixed with `0x`.
     pub fn hex(&mut self, bits: usize) -> String {
-        let digits = bits / 4;
-        "0x".chars()
-            .chain(
-                repeat_with(|| {
-                    *b"0123456789abcdef"
-                        .choose(self)
-                        .expect("list of hex digits should not be empty")
-                        as char
-                })
-                .take(digits),
-            )
-            .collect()
+        format!("{:#x}", self.gen_range(0..(1 << bits)))
     }
 }

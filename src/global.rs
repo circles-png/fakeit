@@ -4,6 +4,9 @@ use rand::{SeedableRng, rngs::StdRng};
 
 use crate::Unreal;
 
+/// Lock the global [`Mutex`] and return a RAII guard to the global [`Unreal`] instance. If there
+/// is no global [`Unreal`] instance, one will be lazily initialised with a random seed.
+///
 /// # Errors
 /// Returns an error if the global [`Mutex`] is poisoned.
 pub fn global_lock()
@@ -11,6 +14,8 @@ pub fn global_lock()
     GLOBAL_UNREAL.lock()
 }
 
+/// Seed the global [`Mutex`] with the given seed.
+///
 /// # Errors
 /// Returns an error if the global [`Mutex`] is poisoned.
 pub fn seed_global(seed: u64) -> Result<(), PoisonError<MutexGuard<'static, Unreal<StdRng>>>> {
@@ -18,6 +23,8 @@ pub fn seed_global(seed: u64) -> Result<(), PoisonError<MutexGuard<'static, Unre
     Ok(())
 }
 
+/// Randomly seed the global [`Mutex`] with entropy.
+///
 /// # Errors
 /// Returns an error if the global [`Mutex`] is poisoned.
 pub fn seed_global_from_entropy() -> Result<(), PoisonError<MutexGuard<'static, Unreal<StdRng>>>> {
