@@ -10,6 +10,7 @@ description = "Fake data generator; fork of the fakeit crate"
 license = "MIT"
 readme = "README.md"
 keywords = ["fake", "data", "random", "generator", "faker"]
+repository = "https://github.com/circles-png/unreal"
 
 [dependencies]
 rand = "0.8.5"
